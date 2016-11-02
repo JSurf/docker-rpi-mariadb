@@ -1,2 +1,2 @@
 # docker-rpi-mariadb
-mariadb docker image for rpi, based on alpine
+mariadb docker image for rpi, based on jsurf/rpi-raspbian
