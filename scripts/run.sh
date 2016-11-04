@@ -57,7 +57,7 @@ EOF
 	    fi
 	fi
 
-	/usr/bin/mysqld --user=mysql --bootstrap --verbose=0 < $tfile
+	/usr/sbin/mysqld --user=mysql --bootstrap --verbose=0 < $tfile
 	rm -f $tfile
 fi
 
@@ -71,4 +71,4 @@ do
 	fi
 done
 
-exec /usr/bin/mysqld --user=mysql --console
+exec /usr/sbin/mysqld --user=mysql --console
