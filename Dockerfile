@@ -1,4 +1,4 @@
-FROM jsurf/rpi-raspbian:latest
+FROM jsurf/rpi-raspbian:stretch
 
 RUN [ "cross-build-start" ]
 
