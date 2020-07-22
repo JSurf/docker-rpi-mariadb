@@ -48,18 +48,12 @@ RUN { \
 	&& chmod 777 /var/run/mysqld
 
 # comment out a few problematic configuration values
+RUN 	find /etc/mysql/ -name '*.cnf' -print0 \
+		| xargs -0 grep -lZE '^(bind-address|log|user\s)' \
+		| xargs -rt -0 sed -Ei 's/^(bind-address|log|user\s)/#&/'; \
 # don't reverse lookup hostnames, they are usually another container
-RUN sed -Ei 's/^(bind-address|log)/#&/' /etc/mysql/my.cnf \
-	&& echo 'skip-host-cache\nskip-name-resolve' | awk '{ print } $1 == "[mysqld]" && c == 0 { c = 1; system("cat") }' /etc/mysql/my.cnf > /tmp/my.cnf \
-	&& mv /tmp/my.cnf /etc/mysql/my.cnf
-
-#RUN apt-get update \
-#    && apt-get install -y mariadb-server pwgen \
-#    && rm -rf /var/lib/mysql && mkdir -p /var/lib/mysql /var/run/mysqld \
-#    && chown -R mysql:mysql /var/lib/mysql /var/run/mysqld \
-#	&& chmod 777 /var/run/mysqld \
-#    && rm -rf /var/lib/apt/lists/*
-
+	echo '[mysqld]\nskip-host-cache\nskip-name-resolve' > /etc/mysql/conf.d/docker.cnf
+	
 RUN [ "cross-build-end" ]
 
 VOLUME ["/var/lib/mysql"]
